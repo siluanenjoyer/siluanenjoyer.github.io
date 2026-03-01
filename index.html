@@ -1,32 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sfântul Efrem Sirul</title>
-  <link href="https://doxologia.ro/sites/default/files/articol/2015/10/sf_efrem_sirul.jpg" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg:       #0d0b08;
-      --gold:     #b8973a;
-      --gold-dim: #7a6222;
-      --parchment:#d6c89a;
-      --muted:    #7a6e58;
+      --bg:        #0a0608;
+      --burgundy:  #1c0a0e;
+      --crimson:   #6b1a22;
+      --gold:      #c9a84c;
+      --gold-dim:  #8a6a28;
+      --gold-pale: #e8d49a;
+      --parchment: #d4bc8e;
+      --muted:     #8a7560;
+      --blue-byz:  #1a2a4a;
     }
 
-    *, *::before, *::after {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height: 100%; }
 
     body {
       background-color: var(--bg);
       color: var(--parchment);
-      font-family: 'IM Fell English', serif;
+      font-family: 'Cormorant Garamond', serif;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -36,12 +34,26 @@
       position: relative;
     }
 
-    /* Radial vignette */
+    /* Byzantine background pattern — subtle geometric cross-grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(139,98,40,0.07) 59px, rgba(139,98,40,0.07) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(139,98,40,0.07) 59px, rgba(139,98,40,0.07) 60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Deep vignette — heavier on edges, richer */
     body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.82) 100%);
+      background:
+        radial-gradient(ellipse at center, transparent 28%, rgba(10,4,6,0.88) 100%),
+        radial-gradient(ellipse at top, rgba(28,10,14,0.4) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
@@ -54,108 +66,145 @@
       flex-direction: column;
       align-items: center;
       opacity: 0;
-      animation: rise 2s ease forwards;
+      animation: rise 2.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
     @keyframes rise {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Portrait */
+    /* ---- Byzantine arch frame around portrait ---- */
     .portrait-wrap {
       position: relative;
-      width: 160px;
-      height: 160px;
-      margin-bottom: 36px;
+      width: 148px;
+      margin-bottom: 32px;
     }
 
-    .portrait-wrap::before {
-      content: '';
-      position: absolute;
-      inset: -6px;
-      border: 1px solid var(--gold-dim);
-      opacity: 0.55;
+    /* Outer arch border */
+    .arch {
+      position: relative;
+      width: 148px;
+      height: 148px;
     }
 
-    .portrait-wrap::after {
+    /* Arch top ornament */
+    .arch::before {
       content: '';
       position: absolute;
-      inset: -12px;
+      inset: -8px;
       border: 1px solid var(--gold-dim);
-      opacity: 0.2;
+      clip-path: polygon(50% 0%, 100% 12%, 100% 100%, 0% 100%, 0% 12%);
+      opacity: 0.6;
+    }
+
+    .arch::after {
+      content: '';
+      position: absolute;
+      inset: -16px;
+      border: 1px solid var(--gold-dim);
+      clip-path: polygon(50% 0%, 100% 10%, 100% 100%, 0% 100%, 0% 10%);
+      opacity: 0.22;
     }
 
     .portrait {
-      width: 160px;
-      height: 160px;
+      width: 148px;
+      height: 148px;
       object-fit: cover;
       object-position: top center;
       display: block;
-      filter: grayscale(50%) sepia(25%) brightness(0.82) contrast(1.08);
+      filter: grayscale(30%) sepia(40%) brightness(0.78) contrast(1.12) hue-rotate(340deg);
     }
 
-    /* Vertical rule */
+    /* Corner cross marks */
+    .corner {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0.5;
+    }
+    .corner::before, .corner::after {
+      content: '';
+      position: absolute;
+      background: var(--gold-dim);
+    }
+    .corner::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+    .corner::after  { width: 100%; height: 1px; top: 50%; transform: translateY(-50%); }
+    .corner.tl { top: -20px; left: -20px; }
+    .corner.tr { top: -20px; right: -20px; }
+    .corner.bl { bottom: -20px; left: -20px; }
+    .corner.br { bottom: -20px; right: -20px; }
+
+    /* Vertical descent line */
     .rule {
       width: 1px;
-      height: 30px;
-      background: linear-gradient(to bottom, transparent, var(--gold-dim));
-      margin-bottom: 28px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--gold-dim), transparent);
+      margin-bottom: 24px;
     }
 
     /* Name */
     h1 {
-      font-family: 'Cinzel', serif;
+      font-family: 'Cinzel Decorative', serif;
       font-weight: 400;
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
-      letter-spacing: 0.4em;
-      color: var(--parchment);
+      font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+      letter-spacing: 0.22em;
+      color: var(--gold-pale);
       text-transform: uppercase;
-      margin-bottom: 8px;
+      text-align: center;
+      margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     .epithet {
-      font-family: 'IM Fell English', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
+      font-weight: 300;
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
       color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 42px;
+      text-align: center;
+      margin-bottom: 36px;
     }
 
-    /* Ornament divider */
+    /* Byzantine ornament divider */
     .ornament {
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 42px;
-      color: var(--gold-dim);
-      font-size: 0.6rem;
+      gap: 14px;
+      margin-bottom: 38px;
     }
 
-    .ornament span {
-      display: block;
-      width: 72px;
+    .ornament-line {
+      width: 64px;
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold-dim));
+      background: linear-gradient(to right, transparent, var(--crimson), var(--gold-dim));
     }
 
-    .ornament span:last-child {
-      background: linear-gradient(to left, transparent, var(--gold-dim));
+    .ornament-line.rev {
+      background: linear-gradient(to left, transparent, var(--crimson), var(--gold-dim));
+    }
+
+    .ornament-cross {
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      opacity: 0.8;
     }
 
     /* Nav */
     nav {
       display: flex;
-      gap: 56px;
+      gap: 52px;
     }
 
     nav a {
-      font-family: 'IM Fell English', serif;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
       text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.28em;
+      font-size: 0.88rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--muted);
       position: relative;
@@ -170,28 +219,39 @@
       left: 0;
       width: 0;
       height: 1px;
-      background: var(--gold);
-      transition: width 0.45s ease;
+      background: linear-gradient(to right, var(--crimson), var(--gold));
+      transition: width 0.5s ease;
     }
 
     nav a:hover {
-      color: var(--gold);
+      color: var(--gold-pale);
     }
 
     nav a:hover::after {
       width: 100%;
     }
 
-    /* Footer */
-    .footer {
+    /* Bottom verse */
+    .verse {
       position: fixed;
-      bottom: 26px;
-      font-family: 'IM Fell English', serif;
+      bottom: 36px;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 0.68rem;
+      font-weight: 300;
+      font-size: 0.7rem;
       letter-spacing: 0.22em;
-      color: #2e2818;
+      color: #2e1a1e;
       z-index: 1;
+      text-align: center;
+    }
+
+    /* Slow gold pulse on the ✦ */
+    @keyframes pulse-gold {
+      0%, 100% { opacity: 0.7; }
+      50%       { opacity: 1; }
+    }
+    .ornament-cross {
+      animation: pulse-gold 4s ease-in-out infinite;
     }
   </style>
 </head>
@@ -200,32 +260,38 @@
   <div class="wrapper">
 
     <div class="portrait-wrap">
-      <img
-        class="portrait"
-        src="https://doxologia.ro/sites/default/files/articol/2015/10/sf_efrem_sirul.jpg"
-        alt="Sfantul Efrem Sirul"
-      />
+      <div class="arch">
+        <img
+          class="portrait"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ephrem_the_syrian.jpg/400px-Ephrem_the_syrian.jpg"
+          alt="Sfântul Efrem Sirul"
+        />
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+      </div>
     </div>
 
     <div class="rule"></div>
 
-    <h1>Sfântul Efrem Sirul</h1>
-    <p class="epithet">Scrieri, Rugăciuni și Lacrimi</p>
+    <h1>Sfântul Efrem<br>Sirul</h1>
+    <p class="epithet">Scrieri · Rugăciuni · Lacrimi</p>
 
     <div class="ornament">
-      <span></span>
-      ✦
-      <span></span>
+      <div class="ornament-line"></div>
+      <span class="ornament-cross">✦</span>
+      <div class="ornament-line rev"></div>
     </div>
 
     <nav>
-      <a href="writings.html">Viața</a>
-      <a href="about.html">Scrieri</a>
+      <a href="viata.html">Viața</a>
+      <a href="scrieri.html">Scrieri</a>
     </nav>
 
   </div>
 
-  <p class="footer">Ora et Labora</p>
+  <p class="verse">Harfa Duhului Sfânt</p>
 
 </body>
 </html>
