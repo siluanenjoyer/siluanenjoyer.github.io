@@ -1,123 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Wetru</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Petroniu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
+    :root {
+      --bg:       #0d0b08;
+      --gold:     #b8973a;
+      --gold-dim: #7a6222;
+      --parchment:#d6c89a;
+      --muted:    #7a6e58;
+    }
+
+    *, *::before, *::after {
+      margin: 0; padding: 0;
       box-sizing: border-box;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
-      background-color: #b0b0b0;
-      font-family: Zamolxis, serif;
+      background-color: var(--bg);
+      color: var(--parchment);
+      font-family: 'IM Fell English', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Radial vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.82) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Wrapper */
+    .wrapper {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
+      opacity: 0;
+      animation: rise 2s ease forwards;
     }
 
-    header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 60px;
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .logo {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
+    /* Portrait */
+    .portrait-wrap {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin-bottom: 36px;
+    }
+
+    .portrait-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 1px solid var(--gold-dim);
+      opacity: 0.55;
+    }
+
+    .portrait-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border: 1px solid var(--gold-dim);
+      opacity: 0.2;
+    }
+
+    .portrait {
+      width: 160px;
+      height: 160px;
       object-fit: cover;
-      cursor: pointer;
+      object-position: top center;
+      display: block;
+      filter: grayscale(50%) sepia(25%) brightness(0.82) contrast(1.08);
     }
 
-    .logo.spin {
-      animation: fullSpin 0.8s ease forwards;
+    /* Vertical rule */
+    .rule {
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, transparent, var(--gold-dim));
+      margin-bottom: 28px;
     }
 
-    @keyframes fullSpin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
+    /* Name */
     h1 {
-      margin-top: 16px;
-      font-size: 2.4rem;
-      letter-spacing: 4px;
-      color: #1a1a1a;
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      letter-spacing: 0.4em;
+      color: var(--parchment);
       text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
-    nav {
-      margin-top: 36px;
+    .epithet {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 42px;
+    }
+
+    /* Ornament divider */
+    .ornament {
       display: flex;
-      gap: 40px;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 42px;
+      color: var(--gold-dim);
+      font-size: 0.6rem;
+    }
+
+    .ornament span {
+      display: block;
+      width: 72px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim));
+    }
+
+    .ornament span:last-child {
+      background: linear-gradient(to left, transparent, var(--gold-dim));
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      gap: 56px;
     }
 
     nav a {
+      font-family: 'IM Fell English', serif;
       text-decoration: none;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      color: #1a1a1a;
+      font-size: 0.8rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      padding: 6px 12px;
-      border-radius: 4px;
-      transition: background-color 0.25s, color 0.25s;
+      color: var(--muted);
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.5s;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.45s ease;
     }
 
     nav a:hover {
-      background-color: #888;
-      color: #f5f5f5;
+      color: var(--gold);
     }
 
-    main {
-      flex: 1;
+    nav a:hover::after {
+      width: 100%;
     }
 
-    footer {
-      margin-bottom: 24px;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      color: #6a0dad;
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 26px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      color: #2e2818;
+      z-index: 1;
     }
-    @font-face {
-  font-family: 'Zamolxis';
-  src: url('ZamolxisIi.ttf') format('truetype');
-}
   </style>
 </head>
 <body>
 
-  <header>
-    <img
-      class="logo"
-      src="https://pngimg.com/d/skull_PNG112719.png"
-      alt="Wetru logo"
-      id="logo"
-    />
-    <h1>Wetru</h1>
-  </header>
+  <div class="wrapper">
 
-  <nav>
-    <a href="/wetru.github.io/articles">Articles</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-  </nav>
+    <div class="portrait-wrap">
+      <img
+        class="portrait"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Monk_at_Simonos_Petras_monastery%2C_Mount_Athos.jpg/640px-Monk_at_Simonos_Petras_monastery%2C_Mount_Athos.jpg"
+        alt="Petroniu"
+      />
+    </div>
 
-  <main></main>
+    <div class="rule"></div>
 
-  <footer>wetru.xyz</footer>
+    <h1>Petroniu</h1>
+    <p class="epithet">Monah · Sfântul Munte Athos</p>
 
-  <script>
-    const logo = document.getElementById('logo');
-    logo.addEventListener('click', () => {
-      logo.classList.remove('spin');
-      void logo.offsetWidth;
-      logo.classList.add('spin');
-    });
-  </script>
+    <div class="ornament">
+      <span></span>
+      ✦
+      <span></span>
+    </div>
+
+    <nav>
+      <a href="writings.html">Writings</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+  </div>
+
+  <p class="footer">Ora et Labora</p>
 
 </body>
 </html>
