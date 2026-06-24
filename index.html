@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Examen Patrologie — Antrenament</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <h1>Examen Patrologie</h1>
+    <p>Anul I, Semestrul 2 — Cursurile 1–8 · antrenament cu răspunsuri scrise</p>
+  </header>
+
+  <!-- SETUP SCREEN -->
+  <section id="setup-screen">
+    <div class="panel">
+      <h2>Alege cursurile</h2>
+      <div class="chips" style="margin-bottom:10px;">
+        <div class="chip all" id="chip-all">Toate</div>
+        <div class="chip all" id="chip-none">Niciunul</div>
+      </div>
+      <div class="chips" id="course-chips"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Mod de antrenament</h2>
+      <div class="chips mode-toggle">
+        <div class="chip active" data-mode="all">Toate întrebările</div>
+        <div class="chip" data-mode="mistakes">Doar greşelile anterioare</div>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-primary" id="start-btn">Începe antrenamentul</button>
+        <button class="btn btn-ghost" id="reset-stats-btn">Şterge istoricul salvat</button>
+      </div>
+      <div id="setup-stats"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ SCREEN -->
+  <section id="quiz-screen" class="hidden">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label" id="progress-label"></div>
+
+    <div class="q-card">
+      <div class="q-tag" id="q-tag"></div>
+      <p class="q-text" id="q-text"></p>
+
+      <textarea id="answer-input" placeholder="Scrie aici răspunsul tău, cu propriile cuvinte…"></textarea>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" id="dont-know-btn">Nu ştiu, arată răspunsul</button>
+        <button class="btn btn-primary" id="check-btn">Verifică răspunsul</button>
+      </div>
+
+      <div class="reveal hidden" id="reveal-area">
+        <div class="match-badge" id="match-badge"></div>
+
+        <div class="model-answer">
+          <strong class="label">Răspuns model</strong>
+          <div id="model-answer-text"></div>
+        </div>
+
+        <div class="kw-list" id="kw-list"></div>
+
+        <div class="funfact hidden" id="funfact-box">
+          <strong class="label">Fun fact</strong>
+          <div id="funfact-text"></div>
+        </div>
+
+        <p class="self-grade-hint">Tu eşti cel mai bun judecător — notează cinstit dacă ai răspuns corect:</p>
+        <div class="grade-row">
+          <button class="btn btn-wrong" id="grade-wrong-btn">✗ Nu am ştiut / am greşit</button>
+          <button class="btn btn-correct" id="grade-correct-btn">✓ Am răspuns corect</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY SCREEN -->
+  <section id="summary-screen" class="hidden">
+    <div class="panel">
+      <h2>Rezultatul sesiunii</h2>
+      <div class="summary-grid">
+        <div class="summary-stat"><span class="num" id="sum-correct"></span><span class="lbl">corecte</span></div>
+        <div class="summary-stat"><span class="num" id="sum-wrong"></span><span class="lbl">greşite</span></div>
+        <div class="summary-stat"><span class="num" id="sum-pct"></span><span class="lbl">scor</span></div>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-primary" id="retry-mistakes-btn">Reia greşelile</button>
+        <button class="btn btn-secondary" id="back-to-setup-btn">Înapoi la selecţie</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Progres pe cursuri (istoric general)</h2>
+      <div class="course-breakdown" id="course-breakdown"></div>
+    </div>
+  </section>
+
+  <footer class="note">122 de întrebări · cursurile 1–8 · Sf. Ambrozie, isagogia, imnografia şi caracterizarea sunt excluse din bancă</footer>
+</div>
+
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
